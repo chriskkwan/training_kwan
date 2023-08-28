@@ -1,0 +1,7 @@
+---
+title: "Github Pages Practice"
+format: html
+editor: visual
+---
+
+hello world
