@@ -88,4 +88,10 @@ daily_visits_loc %>%
     ggplot(aes(x = visitor_type, y = daily_visits)) +
     geom_boxplot()
 ```
+```{r}
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,
+           fill = visitor_type))+
+    geom_col(fill = "blue")
+```
 

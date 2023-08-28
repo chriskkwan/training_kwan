@@ -6,7 +6,4 @@ editor: visual
 
 hello world!
 
--[Introduction to Quarto](intro-to-quarto.html)
--[Cleaning and Wrangling Data](wrangling-and-cleaning.html)
--Data Viz 
--Special Data in R 
+\-[Introduction to Quarto](intro-to-quarto.html) -[Cleaning and Wrangling Data](wrangling-and-cleaning.html) -Data Viz -Special Data in R
