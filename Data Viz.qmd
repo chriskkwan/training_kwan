@@ -86,12 +86,179 @@ daily_visits_loc %>%
     filter(daily_visits < 30,
            visitor_type %in% c("sm_boat", "med_boat", "lrg_boat")) %>%
     ggplot(aes(x = visitor_type, y = daily_visits)) +
-    geom_boxplot()
+```
+```{r}
+geom_boxplot()
 ```
 ```{r}
 ggplot(data = daily_visits_loc,
        aes(x = restore_loc, y = daily_visits,
            fill = visitor_type))+
     geom_col(fill = "blue")
+```
+```{r}
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+  labs(x = "Restoration Locations",y = "Numbers of Visits", fill = "Type of Visitor", title = "Total Number of Visits to Delta Restoration Sites by visotr type", subtitle = "Sum of all visits during study period")+coord_flip()+theme_bw()
+```
+## theme()
+```{r}
+my_theme <- theme_bw(base_size = 16) +
+    theme(legend.position = "bottom",
+          axis.ticks.y = element_blank())
+```
+```{r}
+my_theme (legend.position = "bottom")
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+    labs(x = "Restoration Location",
+         y = "Number of Visits",
+         fill = "Type of Visitor",
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during July 2017 and March 2018")+
+    coord_flip()+
+    theme_bw()
+```
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+    labs(x = "Restoration Location",
+         y = "Number of Visits",
+         fill = "Type of Visitor",
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during study period")+
+    coord_flip()+
+    scale_y_continuous(breaks = seq(0,120, 20), expand = c(0,0))+
+    my_theme
+```{r}
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+    labs(x = "Restoration Location",
+         y = "Number of Visits",
+         fill = "Type of Visitor",
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during study period")+
+    coord_flip()+
+    scale_y_continuous(breaks = seq(0,140,10), expand = c(0,0))+
+    my_theme
+```
+```{r}
+ggplot(data = daily_visits_totals,
+       aes(x = fct_reorder(restore_loc, desc(n)), y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+    theme_bw()+
+    coord_flip()+
+    scale_y_continuous(breaks = seq(0,120, 20), expand = c(0,0))+
+    scale_fill_viridis_d()+
+    labs(x = "Restoration Location",
+         y = "Number of Visits",
+         fill = "Type of Visitor",
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during study period")+
+    my_theme```
+```
+
+
+```{r}
+ggplot(data = daily_visits_loc,
+       aes(x = fct_reorder(restore_loc, desc(n)), y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+    theme_bw()+
+    coord_flip()+
+    scale_y_continuous(breaks = seq(0,120, 20), expand = c(0,0))+
+    scale_fill_viridis_d()+
+    labs(x = "Restoration Location",
+         y = "Number of Visits",
+         fill = "Type of Visitor",
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during study period")+
+    my_theme
+```
+
+
+
+```{r}
+facet_plot <- ggplot(data = daily_visits_loc,
+       aes(x = visitor_type, y = daily_visits,
+           fill = visitor_type))+
+    geom_col()+
+    theme_bw()+
+    facet_wrap(~restore_loc,
+               scales = "free_y",
+               ncol = 5,
+               nrow = 2)+
+    scale_fill_viridis_d()+
+    labs(x = "Type of visitor",
+         y = "Number of Visits",
+         title = "Total Number of Visits to Delta Restoration Areas",
+         subtitle = "Sum of all visits during study period")+
+    theme_bw()+
+    theme(legend.position = "bottom",
+          axis.ticks.x = element_blank(),
+          axis.text.x = element_blank())
+
+facet_plot
+```
+
+
+```{r}
+locations <- visits_long %>%
+    distinct(restore_loc, .keep_all = T) %>%
+    select(restore_loc, latitude, longitude)
+
+head(locations)
+```
+
+
+```{r}
+locations <- visits_long %>%
+    distinct(restore_loc, .keep_all = T) %>%
+    select(restore_loc, latitude, longitude)
+
+head(locations)
+```
+
+
+```{r}
+leaflet(locations) %>%
+    addTiles() %>%
+    addMarkers(
+        lng = ~ longitude,
+        lat = ~ latitude,
+        popup = ~ restore_loc
+    )
+```
+```{r}
+leaflet(locations) %>%
+    addWMSTiles(
+        "https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WmsServer",
+        layers = "0",
+        options = WMSTileOptions(format = "image/png", transparent = TRUE)) %>%
+    addCircleMarkers(
+        lng = ~ longitude,
+        lat = ~ latitude,
+        popup = ~ restore_loc,
+        radius = 5,
+        # set fill properties
+        fillColor = "blue",
+        fillOpacity = 1,
+        # set stroke properties
+        stroke = T,
+        weight = 0.5,
+        color = "white",opacity = 1)
+```
+
+
+```{r}
+
 ```
 
